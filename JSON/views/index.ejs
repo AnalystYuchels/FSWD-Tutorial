@@ -14,20 +14,32 @@
     <button type="submit" value="beef" name="choice">🥩</button>
     <button type="submit" value="fish" name="choice">🐟</button>
   </form>
-  <div id="recipeContainer" class="hidden">
+  <div id="recipeContainer">
+    
+    <% if (recipe) { %>
+      <h2><%= recipe.name %></h2>
+    <% } else { %>
+      <h2>Pick your favourite taco ingredient 👆</h2>
+    <% } %>
 
-    <!-- If no recipe yet, show: -->
-    <h2>Pick your favourite taco ingredient 👆</h2>
-    <!-- Else, show the recipe name e.g. <h2>Recipe name</h2>-->
-
-    <h3>Ingredients:</h3>
     <ul id="ingredientsList">
-      <li>Protein name, protein preparation</li>
-      <li>Salsa name</li>
-      <li>Every other topping</li>
+      <% if (recipe) { %>
+    
+        <li>
+          <%= recipe.ingredients.protein.name %>,
+          <%= recipe.ingredients.protein.preparation %>
+        </li>
+    
+        <li>
+          <%= recipe.ingredients.salsa.name %>
+        </li>
+    
+        <% recipe.ingredients.toppings.forEach(topping => { %>
+          <li><%= topping.name %></li>
+        <% }) %>
+    
+      <% } %>
     </ul>
-
-
 
   </div>
 </body>
