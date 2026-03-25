@@ -17,5 +17,24 @@ app.set("view engine", "ejs");
 
 // 5. Use axios to get a random secret and pass it to index.ejs to display the
 // secret and the username of the secret.
+app.get("/", async (req, res) => {
+  try {
+    const response = await axios.get(API_URL);
+    const secret = response.data.secret;
+    const username = response.data.username;
+
+    res.render("index.ejs", {
+      secret: secret,
+      user: username,
+    });
+  } catch (error) {
+    console.error("Error fetching secret:", error.message);
+
+    res.render("index.ejs", {
+      secret: "Oops! Couldn't fetch a secret right now.",
+      user: "Unknown",
+    });
+  }
+})
 
 // 6. Listen on your predefined port and start the server.
