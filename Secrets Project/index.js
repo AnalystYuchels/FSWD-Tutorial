@@ -35,6 +35,9 @@ app.get("/", async (req, res) => {
       user: "Unknown",
     });
   }
-})
+});
 
 // 6. Listen on your predefined port and start the server.
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
