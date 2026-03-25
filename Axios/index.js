@@ -63,6 +63,9 @@ app.post("/", async (req, res) => {
     console.error("Error fetching filtered activity", error.message);
 
     res.render("index.ejs", {
+      activity: null,
+      type: null,
+      participants: null,
       error: "No activities that match your criteria.",
     });
   }
