@@ -29,7 +29,7 @@ app.get("/noAuth", (req, res) => {
   }
 });
 
-app.get("/basicAuth", (req, res) => {
+app.get("/basicAuth", async (req, res) => {
   //TODO 3: Write your code here to hit up the /all endpoint
   //Specify that you only want the secrets from page 2
   //HINT: This is how you can use axios to do basic auth:
@@ -42,6 +42,20 @@ app.get("/basicAuth", (req, res) => {
       },
     });
   */
+  try {
+    const response = await axios.get(API_URL + "all?page=2", {
+      auth: {
+        username: yourUsername,
+        password: yourPassword,
+      },
+    });
+
+    res.render("index.ejs", {
+      content: JSON.stringify(response.data),
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 app.get("/apiKey", (req, res) => {
