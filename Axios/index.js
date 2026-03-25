@@ -19,6 +19,7 @@ app.get("/", async (req, res) => {
       activity: result.activity,
       type: result.type,
       participants: result.participants,
+      error: null,
     });
   } catch (error) {
     console.error("Failed to make request:", error.message);
@@ -56,6 +57,7 @@ app.post("/", async (req, res) => {
       activity: randomActivity.activity,
       type: randomActivity.type,
       participants: randomActivity.participants,
+      error: null,
     });
   } catch (error) {
     console.error("Error fetching filtered activity", error.message);
