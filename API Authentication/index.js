@@ -19,6 +19,14 @@ app.get("/noAuth", (req, res) => {
   //TODO 2: Use axios to hit up the /random endpoint
   //The data you get back should be sent to the ejs file as "content"
   //Hint: make sure you use JSON.stringify to turn the JS object from axios into a string.
+  try {
+    const response = await axios.get(API_URL + "random");
+    res.render("index.ejs", {
+      content: JSON.stringify(response.data),
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 app.get("/basicAuth", (req, res) => {
