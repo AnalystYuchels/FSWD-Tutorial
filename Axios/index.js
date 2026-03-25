@@ -47,6 +47,23 @@ app.post("/", async (req, res) => {
     const response = await axios.get(
       `https://bored-api.appbrewery.com/filter?type=${type}&participants=${participants}`
     );
+
+    const results = response.data;
+
+    // Pick a random activity from the list
+    const randomActivity = results[Math.floor(Math.random() * results.lenth)];
+
+    res.render("index.ejs", {
+      activity: randomActivity.activity,
+      type: randomActivity.type,
+      participants: randomActivity.participants,
+    });
+  } catch (error) {
+    console.error("Error fetching filtered activity", error.message);
+
+    res.render("index.ejs", {
+      error: "No activities that match your criteria.",
+    });
   }
 });
 
