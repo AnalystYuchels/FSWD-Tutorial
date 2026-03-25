@@ -19,7 +19,9 @@ app.get("/", (req, res) => {
 app.post("/recipe", (req, res) => {
   //Step 3: Write your code here to make this behave like the solution website.
   //Step 4: Add code to views/index.ejs to use the recieved recipe object.
-  const recipeID = req.body.choice;
+  
+  // Get what user clicked
+  const choice = req.body.choice;
 
   // Convert JSON string to JS object
   const recipes = JSON.parse(recipeJSON);
