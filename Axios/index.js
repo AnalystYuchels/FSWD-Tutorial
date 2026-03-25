@@ -42,7 +42,12 @@ app.post("/", async (req, res) => {
   // "No activities that match your criteria."
 
   const { type, participants } = req.body;
-  
+
+  try {
+    const response = await axios.get(
+      `https://bored-api.appbrewery.com/filter?type=${type}&participants=${participants}`
+    );
+  }
 });
 
 app.listen(port, () => {
