@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "test": "node index.js"
+    "dev": "nodemon DIY_API/index.js",
+    "start": "node DIY_API/index.js"
   },
   "keywords": [],
   "author": "yuchels",
