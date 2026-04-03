@@ -27,6 +27,23 @@ app.get("/joke/:id", (req, res) => {
 });
 
 //3. GET a jokes by filtering on the joke type
+app.get("/jokes", (req, res) => {
+  const jokeType = req.query.type;
+
+  if (!jokeType) {
+    return res.status(400).json({ error: "Please provide a joke type."});
+  }
+
+  const filteredJoke = jokes.filter(
+    j => j.jokeType.toLowerCase() === jokeType.toLowerCase()
+  );
+
+  if (filteredJoke.length === 0) {
+    return res.status(404).json({ error: "No jokes found for this type"});
+  }
+
+  res.json(filteredJoke);
+});
 
 //4. POST a new joke
 
