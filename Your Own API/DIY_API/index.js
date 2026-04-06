@@ -6,6 +6,7 @@ const port = 3000;
 const masterKey = "4VGP2DN-6EWM4SJ-N6FGRHV-Z3PR3TT";
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 //1. GET a random joke
 app.get("/random", (req, res) => {
@@ -46,6 +47,23 @@ app.get("/jokes", (req, res) => {
 });
 
 //4. POST a new joke
+app.post("/jokes", (req, res) => {
+  const { jokeText, jokeType } = req.body;
+
+  if (!jokeText || !jokeType) {
+    return res.status(400).json({ error: "jokeText and jokeType are required"});
+  }
+
+  const newJoke = {
+    id: jokes.length + 1,
+    jokeText,
+    jokeType
+  };
+
+  jokes.push(newJoke);
+
+  res.status(201).json(newJoke);
+});
 
 //5. PUT a joke
 
