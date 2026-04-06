@@ -66,6 +66,31 @@ app.post("/jokes", (req, res) => {
 });
 
 //5. PUT a joke
+app.put("/jokes/:id", (req, res) => {
+  const jokeId = parseInt(req.params.id);
+  const [ jokeText, jokeType ] = req.body;
+
+  // Validate body
+  if (!jokeText || !jokeType) {
+    return res.status(400).json({ error: "jokeText and jokeType are required"});
+  }
+
+  // Find the index of the joke
+  const jokeIndex = jokes.findIndex(j => j.id === jokeId);
+
+  if (jokeIndex === -1) {
+    return res.status(404).json({ error: "Joke not found"});
+  }
+
+  // Replace the whole joke, keep the same id
+  jokes[jokeIndex] = {
+    id: jokeId,
+    jokeText,
+    jokeType
+  };
+
+  res.json(jokes[jokeIndex]);
+});
 
 //6. PATCH a joke
 
