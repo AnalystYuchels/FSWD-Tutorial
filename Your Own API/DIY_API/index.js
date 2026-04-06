@@ -68,7 +68,8 @@ app.post("/jokes", (req, res) => {
 //5. PUT a joke
 app.put("/jokes/:id", (req, res) => {
   const jokeId = parseInt(req.params.id);
-  const [ jokeText, jokeType ] = req.body;
+  const jokeText = req.body.jokeText;
+  const jokeType = req.body.jokeType;
 
   // Validate body
   if (!jokeText || !jokeType) {
