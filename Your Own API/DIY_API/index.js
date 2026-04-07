@@ -133,6 +133,21 @@ app.delete("/jokes/:id", (req, res) => {
 });
 
 //8. DELETE All jokes
+app.delete("/all", (req, res) => {
+  const key = req.query.masterKey;
+
+  // Check authorization
+  if (key !== masterKey) {
+    return res.status(403).json({ error: "Unauthorized. Invalid master key."});
+  }
+
+  // Replace the jokes array (wipe it)
+  jokes = [];
+
+  res.json({ message: "All jokes have been deleted."});
+});
+
+
 
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
