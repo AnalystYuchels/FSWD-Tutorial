@@ -19,8 +19,13 @@ let currentQuestion = {};
 // Load quiz from Supabase
 async function loadQuiz() {
   try{
-    const res = await db.query("SELECT country, capital FROM Capitals");
+    const res = await db.query("SELECT country, capital FROM capitals");
+
+    console.log("Rows coming from Supabase:" res.rows);
+
     quiz = res.rows;
+
+    console.log("Quiz array after loading:", quiz);
   } catch (err) {
     console.error("Error fetching quiz from DB:", err);
   }
