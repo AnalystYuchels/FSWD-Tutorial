@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import pg from "pg";
+import { db } from "./db.js";
 
 dotenv.config();
 
