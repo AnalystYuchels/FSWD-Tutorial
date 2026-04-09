@@ -21,7 +21,7 @@ async function loadQuiz() {
   try{
     const res = await db.query("SELECT country, capital FROM capitals");
 
-    console.log("Rows coming from Supabase:" res.rows);
+    console.log("Rows coming from Supabase:", res.rows);
 
     quiz = res.rows;
 
@@ -39,7 +39,11 @@ app.get("/", async (req, res) => {
     return res.send("Quiz data not available");
   }
   await nextQuestion();
-  res.render("index.ejs", { question: currentQuestion });
+  res.render("index.ejs", {
+    question: currentQuestion,
+    totalScore: totalCorrect,
+    wasCorrect: null,
+  });
 });
 
 // POST answer
