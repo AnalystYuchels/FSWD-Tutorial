@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import { db } from "./db.js";
 
@@ -8,39 +7,44 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-let quiz = [
-  { country: "France", capital: "Paris" },
-  { country: "United Kingdom", capital: "London" },
-  { country: "United States of America", capital: "New York" },
-];
-
-let totalCorrect = 0;
-
 // Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.set("view engine", "ejs");
 
+let quiz = [];
+let totalCorrect = 0;
 let currentQuestion = {};
+
+// Load quiz from Supabase
+async function loadQuiz() {
+  try{
+    const res = await db.query("SELECT country, capital FROM Capitals");
+    quiz = res.rows;
+  } catch (err) {
+    console.error("Error fetching quiz from DB:", err);
+  }
+}
 
 // GET home page
 app.get("/", async (req, res) => {
   totalCorrect = 0;
+  if (quiz.length === 0) await loadQuiz();
   await nextQuestion();
-  console.log(currentQuestion);
   res.render("index.ejs", { question: currentQuestion });
 });
 
-// POST a new post
-app.post("/submit", (req, res) => {
-  let answer = req.body.answer.trim();
+// POST answer
+app.post("/submit", async (req, res) => {
+  let answer = req.body.answer?.trim() || "";
   let isCorrect = false;
+
   if (currentQuestion.capital.toLowerCase() === answer.toLowerCase()) {
     totalCorrect++;
-    console.log(totalCorrect);
     isCorrect = true;
   }
 
-  nextQuestion();
+  await nextQuestion();
   res.render("index.ejs", {
     question: currentQuestion,
     wasCorrect: isCorrect,
@@ -48,12 +52,14 @@ app.post("/submit", (req, res) => {
   });
 });
 
+// Get next random question
 async function nextQuestion() {
+  if (quiz.length === 0) await loadQuiz();
   const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
-
   currentQuestion = randomCountry;
 }
 
+// Start server
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
