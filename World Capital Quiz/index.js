@@ -30,6 +30,9 @@ async function loadQuiz() {
 app.get("/", async (req, res) => {
   totalCorrect = 0;
   if (quiz.length === 0) await loadQuiz();
+  if (quiz.length === 0) {
+    return res.send("Quiz data not available");
+  }
   await nextQuestion();
   res.render("index.ejs", { question: currentQuestion });
 });

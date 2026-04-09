@@ -14,29 +14,30 @@
       <h3>
         Total Score:
         <span id="score">
-          <%= locals.totalScore ? totalScore : "0" %>
+          <%= totalScore || 0 %>
         </span>
       </h3>
 
     </div>
 
     <h1 id="countryName">
-      <%=question.country %>
+      <%=question ? question.country : "Loading..." %>
     </h1>
+
     <div class="answer-container">
       <input type="text" name="answer" id="userInput" placeholder="Enter the capital" autofocus autocomplete="off">
-
     </div>
-    <button type="submit">SUBMIT<% if(locals.wasCorrect){ %>
+
+    <button type="submit">SUBMIT<% if (wasCorrect) { %>
         <span class="checkmark">✔</span>
-        <% } else if (locals.wasCorrect===false) { %>
+        <% } else if (wasCorrect === false) { %>
           <span class="cross" id="error">✖</span>
           <% } %>
     </button>
 
   </form>
   <script>
-    var wasCorrect = "<%= locals.wasCorrect %>";
+    var wasCorrect = "<%= wasCorrect %>";
     console.log(wasCorrect)
     if (wasCorrect === "false") {
       alert('Game over! Final best score: <%= locals.totalScore %>');
