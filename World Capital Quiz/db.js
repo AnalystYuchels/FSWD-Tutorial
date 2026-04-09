@@ -1,10 +1,10 @@
-import pg, { Connection } from "pg";
+import pg from "pg";
 
-const { pool } = pg;
+const { Pool } = pg;
 
 export const db = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejeectUnauthorized: false,
+    rejectUnauthorized: false,
   },
 });
